@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Blockchain Node</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f7f9fb;
+        color: #2b2d42;
+      }
+
+      header {
+        background-color: #1a73e8;
+        padding: 30px 0;
+        text-align: center;
+        color: #ffffff;
+        font-size: 30px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .main {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        padding: 40px;
+        max-width: 1400px;
+        margin: auto;
+        justify-content: space-between;
+      }
+
+      .left-panel,
+      .right-panel {
+        flex: 1;
+        min-width: 400px;
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 16px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        color: #1a237e;
+        border-bottom: 2px solid #e3e3e3;
+        padding-bottom: 10px;
+        margin-bottom: 25px;
+      }
+
+      .block {
+        background-color: #e3f2fd;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        border-left: 6px solid #1a73e8;
+      }
+
+      .block p {
+        margin: 6px 0;
+      }
+
+      form {
+        margin-bottom: 30px;
+      }
+
+      label {
+        display: block;
+        margin-top: 12px;
+        font-weight: 600;
+        color: #555;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 6px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #fefefe;
+        color: #333;
+      }
+
+      button {
+        margin-top: 20px;
+        padding: 12px 20px;
+        background-color: #1a73e8;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      button:hover {
+        background-color: #0d47a1;
+      }
+
+      ul {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      ul li {
+        background-color: #f0f0f0;
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 8px;
+      }
+
+      @media screen and (max-width: 1000px) {
+        .main {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>Blockchain Node (Port {{ request.host.split(':')[1] }})</header>
+
+    <div class="main">
+      <!-- Left: Blockchain -->
+      <div class="left-panel">
+        <h2>Chain Copy</h2>
+        {% for block in chain %}
+        <div class="block">
+          <p><strong>Block:</strong> {{ block.index }}</p>
+          <p><strong>Transactions:</strong> {{ block.transactions }}</p>
+          <p><strong>Nonce:</strong> {{ block.proof }}</p>
+          <p><strong>Previous Hash:</strong> {{ block['previous_hash'] }}</p>
+          <p><strong>Hash:</strong> {{ block['hash'] }}</p>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Right: Controls -->
+      <div class="right-panel">
+        <h2>Register Node</h2>
+        <form action="/register_node" method="post">
+          <label>Node URL:</label>
+          <input name="node" />
+          <button type="submit">Register</button>
+        </form>
+
+        <h2>Add Transaction</h2>
+        <form action="/add_transaction" method="post">
+          <label>Sender:</label>
+          <input name="sender" />
+          <label>Receiver:</label>
+          <input name="receiver" />
+          <label>Amount:</label>
+          <input name="amount" />
+          <button type="submit">Add Transaction</button>
+        </form>
+
+        <h2>Mine Block</h2>
+        <form action="/mine" method="post">
+          <button type="submit">Mine</button>
+        </form>
+
+        <h2>Run Consensus</h2>
+        <form action="/consensus" method="post">
+          <button type="submit">Resolve Conflict</button>
+        </form>
+
+        <h2>List of Peers</h2>
+        <ul>
+          {% for peer in peers %}
+          <li>{{ peer }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
