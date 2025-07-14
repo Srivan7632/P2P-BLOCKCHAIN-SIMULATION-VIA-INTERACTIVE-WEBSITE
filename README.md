@@ -107,6 +107,7 @@ Notes
 - This is a simplified implementation for learning and demonstration.
 - Blocks are stored in memory, not persistent.
 - No cryptographic signatures or real wallet logic.
+- For the frontend application to work,need to store the index.html inside a templates folder
 
 ---
 
@@ -115,3 +116,6 @@ Next Steps
 - Add timestamps and unique transaction IDs
 - Implement wallet-like signing
 - Add persistent DB or file storage
+- Would make an mobile app interface
+- Would make it even more interactive
+  
